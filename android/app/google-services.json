@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "689785285256",
+    "project_id": "brainbuster-84241",
+    "storage_bucket": "brainbuster-84241.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689785285256:android:dd10e1ab7b9343113e8d3d",
+        "android_client_info": {
+          "package_name": "com.example.brainbuster"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz6o1xrCsmAT_BoLf0mloEePoW4tnnLOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
