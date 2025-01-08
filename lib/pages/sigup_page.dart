@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,11 +11,20 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-//TextEditingController is used to control the textfield
-final TextEditingController emailController = TextEditingController();
-final TextEditingController passwordController = TextEditingController();
-final TextEditingController confirmpasswordController = TextEditingController();
-  
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+
+    // final firebase = FirebaseAuth.instance;
+
+    //TextEditingController is used to control the textfield
+    final TextEditingController firstNameController = TextEditingController();
+    final TextEditingController lastNameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmpasswordController = TextEditingController();
+    String role = 'user';
+
+
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 
@@ -46,7 +56,7 @@ void signUserUp(
   try {
       // Check if password is confirmed
       if (passwordController.text == confirmpasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
@@ -58,6 +68,17 @@ void signUserUp(
             duration: Duration(seconds: 3),
           ),
         );
+        // Save user role in Firestore
+        await _firestore.collection('users').doc(userCredential.user!.uid).set({
+          'email': emailController.text.trim(),
+          'role': role,
+          'firstName': firstNameController.text.trim(),
+          'lastName': lastNameController.text.trim(),
+          'password': passwordController.text.trim(),
+          });
+
+          // Navigate to respective screen
+        Navigator.pushNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
       } else {
         // Show error message if passwords do not match
         ScaffoldMessenger.of(context).showSnackBar(
@@ -92,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
           padding: const EdgeInsets.all(16.0),
           child: GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context, '/loginpage');
             },
             child: const Icon(
               Icons.arrow_back,
@@ -127,6 +148,47 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
         const SizedBox(height: 20),
+
+  //FirstName field
+                TextField(
+                  controller: firstNameController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    focusColor: Colors.white,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    hintText: '  First Name',
+                    hintStyle: TextStyle(
+                      color: Colors.grey[500],
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+        const SizedBox(height: 20),
+        
+//LastName field
+                TextField(
+                  controller: lastNameController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    focusColor: Colors.white,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    hintText: ' Last Name',
+                    hintStyle: TextStyle(
+                      color: Colors.grey[500],
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+        const SizedBox(height: 20),
+        
 
                 
                 //email field
@@ -189,8 +251,19 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),const SizedBox(height: 50),
 
+//section to select if you are admin or user during signup
+DropdownButton<String>(
+          value: role,
+          items: ['user', 'admin']
+              .map((role) => DropdownMenuItem(
+                    value: role,
+                    child: Text(role),
+                  ))
+              .toList(),
+          onChanged: (value) => setState(() => role = value!),
+        ),
 
-
+const SizedBox(height: 50),
                 //signIn button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -205,8 +278,14 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: const EdgeInsets.all(16.0),
                       child: Center(
                         child: GestureDetector(
-                          onTap: () {
-                            signUserUp(context, emailController, passwordController);
+                          onTap: () async {
+                            signUserUp(context, emailController, passwordController);//sign userup in firebase authenctications
+                            
+                            // UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+                            // email: emailController.text.trim(),
+                            // password: passwordController.text.trim(),
+                            // );
+                          
                           },
                           child: const Text(
                             'Sign Up',

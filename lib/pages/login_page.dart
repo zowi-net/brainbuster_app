@@ -1,3 +1,5 @@
+import 'package:brainbuster/pages/sigup_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +12,11 @@ class LoginPage extends StatelessWidget {
 final TextEditingController emailController = TextEditingController();
 final TextEditingController passwordController = TextEditingController();
 
-  
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+
+
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 
@@ -50,7 +56,7 @@ void signUserIn(
     Navigator.pop(context);
 
     // Navigate to home page after successful login
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
   } on FirebaseAuthException catch (e) {
     // Close loading dialog
     Navigator.pop(context);
@@ -185,15 +191,41 @@ void signUserIn(
                       )
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/signup');
+                    onTap: () async{
+                      // Navigator.pushNamed(context, '/signup');
+                      try {
+                  // Authenticate user
+                  UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                  );
+
+                  // Fetch user role from Firestore
+                  DocumentSnapshot userDoc = await _firestore
+                      .collection('users')
+                      .doc(userCredential.user!.uid)
+                      .get();
+
+                  String role = userDoc['role'];
+
+                  // Navigate to respective dashboard
+                  Navigator.pushNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
+                } catch (_) {
+                  // Handle errors here (e.g., show error message to the user)
+                }
+                      
                     },
-                    child: Text(
-                        '  Register Now',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.deepOrange[800],
-                        ),  
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/signup');
+                      },
+                      child: Text(
+                          '  Register Now',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.deepOrange[800],
+                          ),  
+                      ),
                     ),
                   ),
                 ],

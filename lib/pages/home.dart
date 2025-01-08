@@ -5,17 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:unicons/unicons.dart';
 
-class HomePage extends StatefulWidget {
+class AdminScreen extends StatefulWidget {
   static const title = 'salomon_bottom_bar'; 
-   HomePage({super.key});
+   AdminScreen({super.key});
 
   final user = FirebaseAuth.instance.currentUser;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AdminScreen> createState() => _AdminScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AdminScreenState extends State<AdminScreen> {
    var _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -109,6 +109,7 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             children: [Column(
               children: [
+                const Text("admin/ admin sections"),
                 Row(
                   children: [
                     Text("HI, ${widget.user?.email ?? 'User'}", style: GoogleFonts.comicNeue(
