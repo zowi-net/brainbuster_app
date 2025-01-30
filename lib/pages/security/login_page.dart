@@ -1,4 +1,4 @@
-import 'package:brainbuster/pages/sigup_page.dart';
+import 'package:brainbuster/pages/security/sigup_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,8 @@ import 'package:lottie/lottie.dart';
 class LoginPage extends StatelessWidget {
    LoginPage({super.key});
 //TextEditingController is used to control the textfield
-final TextEditingController emailController = TextEditingController();
+  // category. Each question is represented as a Map containing the document ID
+
 final TextEditingController passwordController = TextEditingController();
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -46,17 +47,25 @@ void signUserIn(
   );
 
   try {
-    // Attempt to sign in
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text,
-      password: passwordController.text,
+    // Authenticate user
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
     );
 
-    // Close loading dialog
-    Navigator.pop(context);
+    // Fetch user role from Firestore
+      DocumentSnapshot userDoc = await _firestore
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .get();
 
-    // Navigate to home page after successful login
-    Navigator.pushReplacementNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
+      String role = userDoc['role'];
+
+    // Close loading dialog
+    // Navigator.pop(context);
+
+    // Navigate to respective dashboard either admindashboard or user dashboard
+    Navigator.pushNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
   } on FirebaseAuthException catch (e) {
     // Close loading dialog
     Navigator.pop(context);
@@ -75,6 +84,7 @@ void signUserIn(
     }
   }
 }
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +156,7 @@ void signUserIn(
                   ),
                 ),const SizedBox(height: 50),
         
-                //signIn button
+ //signIn button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -163,6 +173,7 @@ void signUserIn(
                           onPressed: () {
                             signUserIn(context, emailController, passwordController);
                             // Navigator.pushNamed(context, '/home');
+                          
                           },
                           child: const Text(
                             'Sign In',
@@ -175,6 +186,15 @@ void signUserIn(
                         ),
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 150,top: 9),
+                  child: TextButton( 
+                   onPressed: () { 
+                    Navigator.pushNamed(context, '/passwordreset');
+                    }, 
+                  child: Text('Forgot Password?',style: TextStyle(color: Colors.red[600], fontSize: 19),),
                   ),
                 ),
         const SizedBox(height: 50),
@@ -230,19 +250,6 @@ void signUserIn(
                   ),
                 ],
               ),
-        
-        
-        
-        
-        
-                // Center(
-                //   child: ElevatedButton(
-                //     onPressed: () {
-                //       Navigator.pushNamed(context, '/loginpage');
-                //     },
-                //     child: const Text('Login'),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -251,4 +258,7 @@ void signUserIn(
     );
   }
 }
+
+
+
 

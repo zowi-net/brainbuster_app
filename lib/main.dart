@@ -1,34 +1,27 @@
-// import 'package:brainbuster/pages/quiz.dart';
-import 'package:brainbuster/pages/admin_page.dart';
-import 'package:brainbuster/pages/auth_page.dart';
-import 'package:brainbuster/pages/help_center.dart';
-import 'package:brainbuster/pages/login_page.dart';
-import 'package:brainbuster/pages/privacy.dart';
-import 'package:brainbuster/pages/sigup_page.dart';
-import 'package:brainbuster/pages/userscreen.dart';
-import 'package:firebase_core/firebase_core.dart';
-// import 'package:unicons/unicons.dart';
-import 'firebase_options.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:brainbuster/pages/result.dart';
+import 'package:brainbuster/pages/screens/userscreen/quizlogic/brains/braincategory.dart';
 import 'package:flutter/material.dart';
-import 'package:brainbuster/pages/home.dart';
-import 'package:brainbuster/pages/quiz.dart';
-import 'package:brainbuster/pages/profile.dart';
-// import 'package:brainbuster/pages/auth_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:brainbuster/pages/security/login_page.dart';
+import 'package:brainbuster/pages/security/sigup_page.dart';
+import 'package:brainbuster/pages/screens/adminscreen/homescreen/adminscreen.dart';
+import 'package:brainbuster/pages/screens/userscreen/homescreen/userscreen.dart';
+import 'package:brainbuster/pages/screens/userscreen/quizlogic/quiz.dart';
+import 'package:brainbuster/pages/screens/userscreen/settings/settings.dart';
+import 'package:brainbuster/pages/screens/userscreen/settings/help_center.dart';
+import 'package:brainbuster/pages/screens/userscreen/settings/privacy.dart';
+import 'package:brainbuster/pages/security/passwordreset.dart';
+import 'package:brainbuster/pages/screens/userscreen/result/result.dart';
 
-
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-   // Creamy beige color code
-
   const MyApp({super.key});
 
   @override
@@ -36,27 +29,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.light(useMaterial3: true),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/loginpage',
       routes: {
-        '/': (context) => const  AuthPage(),//starter app section
-        '/loginpage': (context) =>  LoginPage(),//login secttion
-        '/signup': (context) => const SignUpPage(),//create account section
-        '/adminscreen': (context) =>  AdminScreen(),//home page section admin screen
-        '/userscreen': (context) =>   UserScreen(),//user screen section
-        '/quiz': (context) =>  const QuizPage(),//quiz section
-        // '/result': (context) => const ResultPage(score: 0,),
-        '/profile': (context) => const ProfilePage(),//profile for user section
-        '/admin': (context) => const AdminPage(), //where questions and answers are been placed
-        '/privacy': (context) => const PrivacyAndTermsPage(),//privacy and terms sections
-        '/helpcenter': (context) => const HelpCenterPage(),//for help with problems solutions
-        // HomePage()
-      }, 
+        '/loginpage': (context) =>  LoginPage(),
+        '/signup': (context) => const SignUpPage(),
+        '/passwordreset': (context) => const PasswordResetScreen(),
+        '/adminscreen': (context) => const AdminnistratorDashboard(),
+        '/userscreen': (context) =>  UserScreenDashBoard(),
+        '/braincategory': (context) =>  const Braincategory(),
+        '/quiz': (context) => const QuizPage(),
+        '/setting': (context) => const SettingPage(),
+        '/privacyandterms': (context) => const PrivacyAndTermsPage(),
+        '/helpcenter': (context) => const HelpCenterScreen(),
+        '/result': (context) => const ResultPage(score: 0),        
+        // '/questionlist': (context) => QuestionList(categoryId: ''),
+      },
     );
   }
 }
+

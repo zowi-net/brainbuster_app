@@ -14,8 +14,6 @@ class SignUpPage extends StatefulWidget {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
 
-    // final firebase = FirebaseAuth.instance;
-
     //TextEditingController is used to control the textfield
     final TextEditingController firstNameController = TextEditingController();
     final TextEditingController lastNameController = TextEditingController();
@@ -95,7 +93,7 @@ void signUserUp(
         SnackBar(
           content: Text('Error creating account: $e'),
           backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
         ),
       );
     }
