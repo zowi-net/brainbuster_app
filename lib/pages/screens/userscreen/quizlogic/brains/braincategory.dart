@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -35,31 +37,35 @@ class _BraincategoryState extends State<Braincategory> {
 
                   final docIds = snapshot.data!;
 
-                  return GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
-                      childAspectRatio: 1,
-                    ),
-                    itemCount: docIds.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => QuestionsScreen(categoryId: docIds[index]),
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 50,left: 16,right: 16),
+                    child: GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 30,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 1,
+                      ),
+                      itemCount: docIds.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => QuestionsScreen(categoryId: docIds[index]),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            color: Colors.deepOrange[400],
+                            child: Center(
+                              child: Text(docIds[index]),
                             ),
-                          );
-                        },
-                        child: Card(
-                          child: Center(
-                            child: Text(docIds[index]),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   );
                 },
               ),
@@ -85,6 +91,51 @@ class QuestionsScreenState extends State<QuestionsScreen> {
   String? _selectedOption;
   int _currentQuestionIndex = 0;
   int _score = 0;
+  // Timer logic
+  Timer? _timer;
+  final ValueNotifier<int> _remainingTime = ValueNotifier<int>(50 * 60); // 50 minutes in seconds
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingTime.value > 0) {
+        _remainingTime.value--;
+      } else {
+        _timer?.cancel();
+        _showFailedTestDialog();
+      }
+    });
+  }
+
+  void _showFailedTestDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Time Up!'),
+        content: const Text('You have failed the test.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed('/result', arguments: {'score': 0});
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _remainingTime.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +179,13 @@ class QuestionsScreenState extends State<QuestionsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Timer display
+                ValueListenableBuilder<int>(
+                  valueListenable: _remainingTime,
+                  builder: (context, value, child) {
+                    return Text('Time remaining: ${value ~/ 60}:${value % 60}');
+                  },
+                ),
                 Text(
                   'Question: $questionText',
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
