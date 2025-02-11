@@ -1,59 +1,58 @@
-import 'package:brainbuster/pages/security/sigup_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-
 class LoginPage extends StatelessWidget {
-   LoginPage({super.key});
-//TextEditingController is used to control the textfield
-  // category. Each question is represented as a Map containing the document ID
+  LoginPage({super.key});
 
-final TextEditingController passwordController = TextEditingController();
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-
-
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
-
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
 // Snackbar to display wrong credentials
-void showWrongCredentialsSnackBar(BuildContext wrgcontext) {
-  ScaffoldMessenger.of(wrgcontext).showSnackBar(
-    const SnackBar(
-      content: Text('Wrong email or password'),
-      backgroundColor: Colors.red, // Indicate an error
-      duration: Duration(seconds: 3), // Visible for 3 seconds
-    ),
-  );
-}
-
+  void showWrongCredentialsSnackBar(BuildContext wrgcontext) {
+    ScaffoldMessenger.of(wrgcontext).showSnackBar(
+      const SnackBar(
+        content: Text('Wrong email or password'),
+        backgroundColor: Colors.red, // Indicate an error
+        duration: Duration(seconds: 3), // Visible for 3 seconds
+      ),
+    );
+  }
 // Function to sign in the user
-void signUserIn(
-    BuildContext context, TextEditingController emailController, TextEditingController passwordController) async {
-  // Show loading dialog
-  showDialog(
-    context: context,
-    builder: (context) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    },
-  );
-
-  try {
-    // Authenticate user
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
+  void signUserIn(
+      BuildContext context, TextEditingController emailController, TextEditingController passwordController) async {
+// Show loading dialog
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
 
-    // Fetch user role from Firestore
+    try {
+// Authenticate user
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+// Check if email is verified
+      User? user = userCredential.user;
+      if (user != null && !user.emailVerified) {
+        Navigator.pop(context);
+// Email is not verified, redirect to EmailVerificationPage
+        Navigator.pushReplacementNamed(context, '/verification');
+        return;
+      }
+
+// Fetch user role from Firestore
       DocumentSnapshot userDoc = await _firestore
           .collection('users')
           .doc(userCredential.user!.uid)
@@ -61,35 +60,59 @@ void signUserIn(
 
       String role = userDoc['role'];
 
-    // Close loading dialog
-    // Navigator.pop(context);
+// Close loading dialog
+      Navigator.pop(context);
 
-    // Navigate to respective dashboard either admindashboard or user dashboard
-    Navigator.pushNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
-  } on FirebaseAuthException catch (e) {
-    // Close loading dialog
-    Navigator.pop(context);
+// Navigate to respective dashboard based on the role
+      Navigator.pushNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
+    } on FirebaseAuthException catch (e) {
+// Close loading dialog
+      Navigator.pop(context);
 
-    // Handle errors
-    if (e.code == 'user-not-found' || e.code == 'wrong-password') {
-      showWrongCredentialsSnackBar(context); // Use the Snackbar function
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('An error occurred: ${e.message}'),
-          backgroundColor: Colors.red,
-          duration: const Duration(seconds: 3),
-        ),
-      );
+// Handle errors
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        showWrongCredentialsSnackBar(context); // Use the Snackbar function
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('An error occurred: ${e.message}'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
+      bottomNavigationBar:Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+//sign up
+        Text(
+          'Don\'t have an account yet?',
+          style: GoogleFonts.averiaGruesaLibre(
+            fontSize: 20,
+            color: Colors.grey[600],
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, '/signup');
+          },
+          child: Text(
+            'Register Now',
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.deepOrange[800],
+            ),
+          ),
+        ),
+      ],
+    ), 
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -97,8 +120,8 @@ void signUserIn(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 30),
-                  Lottie.asset('assets/hm.json', width: 300, height: 200),
+                const SizedBox(height: 20),
+                Lottie.asset('assets/hm.json', width: 300, height: 200),
                 Text(
                   'Welcome to Brainbuster',
                   style: GoogleFonts.pacifico(
@@ -114,9 +137,8 @@ void signUserIn(
                     color: Colors.grey[600],
                   ),
                 ),
-        const SizedBox(height: 50),
-                
-                //email field
+                const SizedBox(height: 50),
+// email field
                 TextField(
                   controller: emailController,
                   decoration: InputDecoration(
@@ -131,12 +153,11 @@ void signUserIn(
                     hintStyle: TextStyle(
                       color: Colors.grey[500],
                       fontSize: 20,
-                    )
+                    ),
                   ),
                 ),
-        const SizedBox(height: 20),
-        
-                //password field
+                const SizedBox(height: 20),
+// password field
                 TextField(
                   controller: passwordController,
                   obscureText: true,
@@ -152,11 +173,11 @@ void signUserIn(
                     hintStyle: TextStyle(
                       color: Colors.grey[500],
                       fontSize: 20,
-                    )
+                    ),
                   ),
-                ),const SizedBox(height: 50),
-        
- //signIn button
+                ),
+                const SizedBox(height: 50),
+// signIn button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -172,8 +193,6 @@ void signUserIn(
                         child: TextButton(
                           onPressed: () {
                             signUserIn(context, emailController, passwordController);
-                            // Navigator.pushNamed(context, '/home');
-                          
                           },
                           child: const Text(
                             'Sign In',
@@ -188,68 +207,19 @@ void signUserIn(
                     ),
                   ),
                 ),
+//forgot password
                 Padding(
-                  padding: const EdgeInsets.only(left: 150,top: 9),
-                  child: TextButton( 
-                   onPressed: () { 
-                    Navigator.pushNamed(context, '/passwordreset');
-                    }, 
-                  child: Text('Forgot Password?',style: TextStyle(color: Colors.red[600], fontSize: 19),),
-                  ),
-                ),
-        const SizedBox(height: 50),
-        
-                //signUp button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                      'Don\'t have an account?',
-                      style: GoogleFonts.averiaGruesaLibre(
-                        fontSize: 20,
-                        color: Colors.grey[600],
-                      )
-                  ),
-                  GestureDetector(
-                    onTap: () async{
-                      // Navigator.pushNamed(context, '/signup');
-                      try {
-                  // Authenticate user
-                  UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim(),
-                  );
-
-                  // Fetch user role from Firestore
-                  DocumentSnapshot userDoc = await _firestore
-                      .collection('users')
-                      .doc(userCredential.user!.uid)
-                      .get();
-
-                  String role = userDoc['role'];
-
-                  // Navigate to respective dashboard
-                  Navigator.pushNamed(context, role == 'admin' ? '/adminscreen' : '/userscreen');
-                } catch (_) {
-                  // Handle errors here (e.g., show error message to the user)
-                }
-                      
+                  padding: const EdgeInsets.only(left: 150, top: 9),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/passwordreset');
                     },
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/signup');
-                      },
-                      child: Text(
-                          '  Register Now',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.deepOrange[800],
-                          ),  
-                      ),
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(color: Colors.red[600], fontSize: 19),
                     ),
                   ),
-                ],
-              ),
+                ),
               ],
             ),
           ),
@@ -258,7 +228,4 @@ void signUserIn(
     );
   }
 }
-
-
-
 

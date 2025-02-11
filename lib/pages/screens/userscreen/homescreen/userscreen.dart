@@ -1,10 +1,8 @@
-// import 'package:brainbuster/pages/security/sigup_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:unicons/unicons.dart';
 
 class UserScreenDashBoard extends StatefulWidget {
   static const title = 'salomon_bottom_bar'; 
@@ -93,24 +91,12 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
           ),
         ),
         ),
-        actions: [
-        Padding(
-          padding: const EdgeInsets.only(left: 16.0,right: 16.0),
-          child: GestureDetector(
-              onTap: (){
-                Navigator.pushNamed(context, '/profile');
-              },child: const Icon(UniconsLine.user,size: 24,),
-              ),
-          
-        ),
-        ], 
       ),
   body: Padding(
     padding: const EdgeInsets.only(left: 16.0,right: 16.0,top: 18),
     child: ListView(
       children: [Column(
         children: [
-          const Text("Student/ user sections"),
           Row(
             children: [
               Text("HI, ${widget.user?.email ?? 'User'}", style: GoogleFonts.comicNeue(
@@ -278,12 +264,11 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
                 ),
               ),
             ),
-
-            ],
-            ),
-            ],
-            ),const SizedBox(height: 20,),
-
+          ],
+        ),
+      ],
+    ),
+          const SizedBox(height: 20,),
             SizedBox(
               width: 120,
               height: 140,
@@ -323,11 +308,11 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
                   ),
                 ),
               ),
-),
+            ),
            ],
         ),
-     ),
-     );
+      ),
+    );
   }
 }
 

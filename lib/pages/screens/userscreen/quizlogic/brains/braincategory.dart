@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Braincategory extends StatefulWidget {
   const Braincategory({super.key});
@@ -21,56 +21,90 @@ class _BraincategoryState extends State<Braincategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            const Text("Category"),
-            Expanded(
-              child: StreamBuilder<List<String>>(
-                stream: getCategoryIdStream(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  final docIds = snapshot.data!;
-
-                  return Padding(
-                    padding: const EdgeInsets.only(top: 50,left: 16,right: 16),
-                    child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 30,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 1,
-                      ),
-                      itemCount: docIds.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => QuestionsScreen(categoryId: docIds[index]),
-                              ),
-                            );
-                          },
-                          child: Card(
-                            color: Colors.deepOrange[400],
-                            child: Center(
-                              child: Text(docIds[index]),
-                            ),
-                          ),
-                        );
-                      },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Column(
+            children: [
+                            Row(
+                  mainAxisAlignment: MainAxisAlignment.start, // Align children to the start (left)
+                  mainAxisSize: MainAxisSize.max, // Take full width
+                  children: [
+                    // Left-aligned Icon
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.arrow_back),
                     ),
-                  );
-                },
-              ),
+                    // Centered Text (fills remaining space)
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          "Category",
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            color: Colors.brown[800],
+                            wordSpacing: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
             ),
-          ],
+              Expanded(
+                child: StreamBuilder<List<String>>(
+                  stream: getCategoryIdStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+          
+                    final docIds = snapshot.data!;
+          
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 50,left: 16,right: 16),
+                      child: GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 30,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 1,
+                        ),
+                        itemCount: docIds.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreen(categoryId: docIds[index]),
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.deepOrange[400],
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(docIds[index],
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -116,14 +150,31 @@ class QuestionsScreenState extends State<QuestionsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Time Up!'),
-        content: const Text('You have failed the test.'),
+        title: Text('Time Up!',
+        style: GoogleFonts.poppins(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+        content: Text('You have failed the test.',
+        style: GoogleFonts.poppins(
+          fontSize: 16, 
+          color: Colors.brown[800],
+          wordSpacing: 1.5,
+        ),
+        ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pushReplacementNamed('/result', arguments: {'score': 0});
             },
-            child: const Text('OK'),
+            child: Text('OK',
+            style: GoogleFonts.poppins(
+            fontSize: 16, 
+            color: Colors.brown[800],
+            wordSpacing: 1.5,
+             ),
+           ),
           ),
         ],
       ),
@@ -154,7 +205,14 @@ class QuestionsScreenState extends State<QuestionsScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return const Center(child: Text("No questions available"));
+            return Center(child: Text("No questions available",
+            style: GoogleFonts.poppins(
+                  fontSize: 15, 
+                  color: Colors.brown[800],
+                  wordSpacing: 1.5,
+                ),
+              ),
+           );
           }
 
           Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
@@ -164,7 +222,11 @@ class QuestionsScreenState extends State<QuestionsScreen> {
             return Center(
               child: Text(
                 'Quiz Completed! Your score is $_score/${questions.length}',
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: GoogleFonts.poppins(
+                    fontSize: 16, 
+                    color: Colors.brown[800],
+                    wordSpacing: 1.5,
+                  ),
               ),
             );
           }
@@ -175,7 +237,7 @@ class QuestionsScreenState extends State<QuestionsScreen> {
           String correctAnswer = currentQuestion['answer'] ?? '';
 
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(left: 16.0,right: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -183,12 +245,24 @@ class QuestionsScreenState extends State<QuestionsScreen> {
                 ValueListenableBuilder<int>(
                   valueListenable: _remainingTime,
                   builder: (context, value, child) {
-                    return Text('Time remaining: ${value ~/ 60}:${value % 60}');
+                    return Text('Time remaining: ${value ~/ 60}:${value % 60}',
+                    style: GoogleFonts.poppins(
+                      color: Colors.red[800],
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    );
                   },
                 ),
+                const SizedBox(height: 10,),
                 Text(
                   'Question: $questionText',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.poppins(
+                    fontSize: 18, 
+                    color: Colors.brown[800],
+                    wordSpacing: 1.5,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 ...options.map<Widget>((option) {
@@ -207,47 +281,67 @@ class QuestionsScreenState extends State<QuestionsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
-                      onPressed: _currentQuestionIndex > 0
-                          ? () {
-                              setState(() {
-                                _currentQuestionIndex--;
-                                _selectedOption = null;
-                              });
-                            }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text("Previous", style: TextStyle(fontSize: 16)),
-                    ),
-                    ElevatedButton(
-                      onPressed: _selectedOption != null
-                          ? () {
-                              setState(() {
-                                if (_selectedOption == correctAnswer) {
-                                  _score++;
-                                }
-                                if (_currentQuestionIndex < questions.length - 1) {
-                                  _currentQuestionIndex++;
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: ElevatedButton(
+                        onPressed: _currentQuestionIndex > 0
+                            ? () {
+                                setState(() {
+                                  _currentQuestionIndex--;
                                   _selectedOption = null;
-                                } else {
-                                  // Quiz completed
-                                  _currentQuestionIndex++;
-                                }
-                              });
-                            }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                                });
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text("Previous",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, 
+                            color: Colors.brown[800],
+                            wordSpacing: 1.5,
+                            fontWeight: FontWeight.w500,
+                          ), 
                         ),
                       ),
-                      child: const Text("Next", style: TextStyle(fontSize: 16)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: ElevatedButton(
+                        onPressed: _selectedOption != null
+                            ? () {
+                                setState(() {
+                                  if (_selectedOption == correctAnswer) {
+                                    _score++;
+                                  }
+                                  if (_currentQuestionIndex < questions.length - 1) {
+                                    _currentQuestionIndex++;
+                                    _selectedOption = null;
+                                  } else {
+                                    // Quiz completed
+                                    _currentQuestionIndex++;
+                                  }
+                                });
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text("Next",
+                         style: GoogleFonts.poppins(
+                            fontSize: 16, 
+                            color: Colors.brown[800],
+                            wordSpacing: 1.5,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

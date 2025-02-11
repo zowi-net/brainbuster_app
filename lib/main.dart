@@ -1,4 +1,3 @@
-import 'package:brainbuster/pages/screens/userscreen/quizlogic/brains/braincategory.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -12,6 +11,10 @@ import 'package:brainbuster/pages/screens/userscreen/settings/help_center.dart';
 import 'package:brainbuster/pages/screens/userscreen/settings/privacy.dart';
 import 'package:brainbuster/pages/security/passwordreset.dart';
 import 'package:brainbuster/pages/screens/userscreen/result/result.dart';
+import 'package:brainbuster/pages/screens/userscreen/quizlogic/brains/braincategory.dart';
+import 'package:brainbuster/pages/security/emailverify.dart';
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +41,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/loginpage': (context) =>  LoginPage(),
         '/signup': (context) => const SignUpPage(),
+        '/verification': (context) => EmailVerificationPage(),
         '/passwordreset': (context) => const PasswordResetScreen(),
         '/adminscreen': (context) => const AdminnistratorDashboard(),
         '/userscreen': (context) =>  UserScreenDashBoard(),
@@ -52,4 +56,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-

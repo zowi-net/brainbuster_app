@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ManageQuizzesScreen extends StatefulWidget {
   const ManageQuizzesScreen({super.key});
@@ -14,19 +15,28 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        title: const Text('Manage Quizzes'),
+        title: Text('Manage Quizzes',
+                style: GoogleFonts.poppins(
+                    fontSize: 19, 
+                    color: Colors.brown[800],
+                    wordSpacing: 1.5,
+                  ),
+                ),
         actions: selectedCategoryId == null
             ? [
                 IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: _showAddCategoryDialog,
+                  color: Colors.green[500],
                 ),
               ]
             : [
                 IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: _deleteCategory,
+                  color: Colors.red[800],
                 ),
               ],
         leading: selectedCategoryId != null
@@ -40,8 +50,22 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
               )
             : null,
       ),
-      body: selectedCategoryId == null ? _buildCategoryList() : _buildQuestionsList(),
-    );
+      body: 
+      Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.blue.shade200,
+              Colors.purple.shade200,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: 
+      selectedCategoryId == null ? _buildCategoryList() : _buildQuestionsList(),
+       ),  
+     );
   }
 
   /// Fetches and displays categories
@@ -49,7 +73,7 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('category').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
 
         var categories = snapshot.data!.docs;
         return ListView.builder(
@@ -84,7 +108,14 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
 
         // Check if 'questions' exists in the document
         if (!categoryData.containsKey('questions') || categoryData['questions'] == null) {
-          return const Center(child: Text("No questions found for this category"));
+          return Center(child: Text("No questions found for this category",
+                      style: GoogleFonts.poppins(
+                        fontSize: 16, 
+                        color: Colors.brown[800],
+                        wordSpacing: 1.5,
+                      ),
+                    ),
+                 );
         }
 
         List<dynamic> questions = categoryData['questions'];
@@ -99,32 +130,37 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
             String answer = questionData.containsKey('answer') ? questionData['answer'] : "No answer provided";
             List<dynamic> options = questionData.containsKey('options') ? questionData['options'] : [];
 
-            return Card(
-              margin: const EdgeInsets.all(10),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Q: $question", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    ...options.map((opt) => ListTile(
-                          title: Text(opt.toString()),
-                          leading: const Icon(Icons.circle),
-                        )),
-                    Text("Answer: $answer", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () => _showEditQuestionDialog(index, question, answer, options),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () => _deleteQuestion(index),
-                        ),
-                      ],
-                    ),
-                  ],
+            return Padding(
+              padding: const EdgeInsets.only(left: 16.0,right: 16.0,bottom: 16.0),
+              child: Card(
+                margin: const EdgeInsets.all(10),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Q: $question", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      ...options.map((opt) => ListTile(
+                            title: Text(opt.toString()),
+                            leading: const Icon(Icons.circle),
+                          )),
+                      Text("Answer: $answer", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit),
+                            onPressed: () => _showEditQuestionDialog(index, question, answer, options),
+                            color: Colors.green[500],
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () => _deleteQuestion(index),
+                            color: Colors.red[800],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -141,10 +177,10 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
       builder: (context) {
         TextEditingController categoryController = TextEditingController();
         return AlertDialog(
-          title: Text("Add New Category"),
+          title: const Text("Add New Category"),
           content: TextField(
             controller: categoryController,
-            decoration: InputDecoration(labelText: "Category Name"),
+            decoration: const InputDecoration(labelText: "Category Name"),
           ),
           actions: [
             TextButton(
@@ -154,7 +190,7 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
                 });
                 Navigator.pop(context);
               },
-              child: Text("Add"),
+              child: const Text("Add"),
             ),
           ],
         );
@@ -182,17 +218,17 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Edit Question"),
+          title: const Text("Edit Question"),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: questionController,
-                decoration: InputDecoration(labelText: "Question"),
+                decoration: const InputDecoration(labelText: "Question"),
               ),
               TextField(
                 controller: answerController,
-                decoration: InputDecoration(labelText: "Answer"),
+                decoration: const InputDecoration(labelText: "Answer"),
               ),
               ...List.generate(currentOptions.length, (index) {
                 return TextField(
@@ -237,7 +273,7 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
                   Navigator.pop(context);
                 }
               },
-              child: Text("Save Changes"),
+              child: const Text("Save Changes"),
             ),
           ],
         );
