@@ -76,19 +76,31 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
         if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
 
         var categories = snapshot.data!.docs;
-        return ListView.builder(
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            var category = categories[index];
-            return ListTile(
-              title: Text(category.id),
-              onTap: () {
-                setState(() {
-                  selectedCategoryId = category.id;
-                });
-              },
-            );
-          },
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: ListView.builder(
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              var category = categories[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  elevation: 20,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text(category.id),
+                      onTap: () {
+                        setState(() {
+                          selectedCategoryId = category.id;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
         );
       },
     );
@@ -120,51 +132,54 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
 
         List<dynamic> questions = categoryData['questions'];
 
-        return ListView.builder(
-          itemCount: questions.length,
-          itemBuilder: (context, index) {
-            var questionData = questions[index];
-
-            // Ensure that 'question', 'options', and 'answer' exist
-            String question = questionData.containsKey('question') ? questionData['question'] : "No question found";
-            String answer = questionData.containsKey('answer') ? questionData['answer'] : "No answer provided";
-            List<dynamic> options = questionData.containsKey('options') ? questionData['options'] : [];
-
-            return Padding(
-              padding: const EdgeInsets.only(left: 16.0,right: 16.0,bottom: 16.0),
-              child: Card(
-                margin: const EdgeInsets.all(10),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Q: $question", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      ...options.map((opt) => ListTile(
-                            title: Text(opt.toString()),
-                            leading: const Icon(Icons.circle),
-                          )),
-                      Text("Answer: $answer", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () => _showEditQuestionDialog(index, question, answer, options),
-                            color: Colors.green[500],
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () => _deleteQuestion(index),
-                            color: Colors.red[800],
-                          ),
-                        ],
-                      ),
-                    ],
+        return Padding(
+          padding: const EdgeInsets.only(top: 25),
+          child: ListView.builder(
+            itemCount: questions.length,
+            itemBuilder: (context, index) {
+              var questionData = questions[index];
+          
+              // Ensure that 'question', 'options', and 'answer' exist
+              String question = questionData.containsKey('question') ? questionData['question'] : "No question found";
+              String answer = questionData.containsKey('answer') ? questionData['answer'] : "No answer provided";
+              List<dynamic> options = questionData.containsKey('options') ? questionData['options'] : [];
+          
+              return Padding(
+                padding: const EdgeInsets.only(left: 16.0,right: 16.0,bottom: 16.0),
+                child: Card(
+                  margin: const EdgeInsets.all(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Q: $question", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        ...options.map((opt) => ListTile(
+                              title: Text(opt.toString()),
+                              leading: const Icon(Icons.circle),
+                            )),
+                        Text("Answer: $answer", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () => _showEditQuestionDialog(index, question, answer, options),
+                              color: Colors.green[500],
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () => _deleteQuestion(index),
+                              color: Colors.red[800],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );
@@ -308,147 +323,27 @@ class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
   }
 }
 
-
-
-
-// import 'package:brainbuster/pages/screens/adminscreen/managequizscreen/addquestions/addquestion.dart';
-// import 'package:brainbuster/services/database.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';  // Import the intl package for date formatting
-
-// class ManageQuizzesScreen extends StatefulWidget {
-//   const ManageQuizzesScreen({super.key});
-
-//   @override
-//   State<ManageQuizzesScreen> createState() => _ManageQuizzesScreenState();
-// }
-
-// class _ManageQuizzesScreenState extends State<ManageQuizzesScreen> {
-//   final Database db = Database();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.grey[300],
-//       floatingActionButton: FloatingActionButton(
-//         backgroundColor: Colors.brown[300],
-//         child: const Icon(Icons.add),
-//         onPressed: () {
-//           // Navigator.pushNamed(context, '/addquiz');
-//           Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => const AddQuestionsScreen(),
-//             ),
-//           );
-//         },
-//       ),
-//       appBar: AppBar(
-//         title: const Text('Manage Quizzes'),
-//         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-//       ),
-//       body: Container(
-//         decoration: BoxDecoration(
-//           gradient: LinearGradient(
-//             colors: [
-//               Colors.blue.shade200,
-//               Colors.purple.shade200,
-//             ],
-//             begin: Alignment.topLeft,
-//             end: Alignment.bottomRight,
-//           ),
-//         ),
-//         child: StreamBuilder<QuerySnapshot>(
-//           stream: db.readData(),
-//           builder: (context, snapshot) {
-//             if (snapshot.hasError) {
-//               return const Center(
-//                 child: Text('Something went wrong'),
-//               );
-//             } else if (snapshot.connectionState == ConnectionState.waiting) {
-//               return const Center(
-//                 child: CircularProgressIndicator(),
-//               );
-//             } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-//               var quizzes = snapshot.data!.docs;
-
-//               return ListView.builder(
-//                 itemCount: quizzes.length,
-//                 itemBuilder: (context, index) {
-//                   final quiz = quizzes[index];
-//                   // Extract the necessary fields
-//                   final String answer = quiz['answer'] ?? 'No Answer';
-//                   final Timestamp timestamp = quiz['date'];
-//                   final String option1 = quiz['option1'] ?? 'No Option';
-//                   final String option2 = quiz['option2'] ?? 'No Option';
-//                   final String option3 = quiz['option3'] ?? 'No Option';
-//                   final String option4 = quiz['option4'] ?? 'No Option';
-//                   final String question = quiz['question'] ?? 'No Question';
-                  
-//                   // Format the timestamp to a readable date
-//                   String formattedDate = DateFormat('d MMM yyyy at h:mm a').format(timestamp.toDate());
-
-//                   return Card(
-//                     margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-//                     elevation: 6,
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(16),
-//                     ),
-//                     // Apply a refined gradient background to the card
-//                     color: Colors.transparent,
-//                     child: Ink(
-//                       decoration: BoxDecoration(
-//                         borderRadius: BorderRadius.circular(16),
-//                         gradient: LinearGradient(
-//                           colors: [
-//                             Colors.blue.shade50,
-//                             Colors.purple.shade50,
-//                           ],
-//                           begin: Alignment.topLeft,
-//                           end: Alignment.bottomRight,
-//                         ),
-//                       ),
-//                       child: ListTile(
-//                         title: Text(
-//                           question,
-//                           style: const TextStyle(fontWeight: FontWeight.bold),
-//                         ),
-//                         subtitle: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             Text(
-//                               'Answer: $answer',
-//                               style: const TextStyle(fontSize: 14),
-//                             ),
-//                             Text(
-//                               'Date: $formattedDate',
-//                               style: const TextStyle(fontSize: 12, color: Colors.grey),
-//                             ),
-//                             const SizedBox(height: 8),
-//                             const Text(
-//                               'Options:',
-//                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-//                             ),
-//                             Text('1. $option1'),
-//                             Text('2. $option2'),
-//                             Text('3. $option3'),
-//                             Text('4. $option4'),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                   );
-//                 },
-//               );
-//             } else {
-//               return const Center(
-//                 child: Text('No quizzes available'),
-//               );
-//             }
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
+  
+  // In the above code, we have created a new screen called ManageQuizzesScreen. This screen will allow the admin to manage quizzes. The screen will display a list of categories. When the admin clicks on a category, the screen will display the questions for that category. The admin can add, edit, and delete questions. 
+  // The _buildCategoryList method fetches and displays the list of categories. The _buildQuestionsList method fetches and displays the questions for the selected category. The _showAddCategoryDialog method displays a dialog to add a new category. The _deleteCategory method deletes the selected category. The _showEditQuestionDialog method displays a dialog to edit a question. The _deleteQuestion method deletes a question. 
+  // Conclusion 
+  // In this tutorial, we learned how to create a quiz app in Flutter using Firebase. We created a quiz app that allows users to take quizzes and view their results. We also created an admin panel that allows admins to manage quizzes and view user results. We used Firebase Authentication to authenticate users and Firebase Firestore to store quiz data. We also used Firebase Cloud Functions to calculate the quiz results. 
+  // We hope you found this tutorial helpful. If you have any questions or comments, please let us know in the comments below. 
+  // Happy coding! 
+  // Related Posts:
+  // Flutter Firebase Authentication Tutorial
+  // Flutter Firebase Firestore Tutorial
+  // Flutter Firebase Cloud Functions Tutorial
+  // Flutter Firebase Storage Tutorial
+  // Flutter Firebase Cloud Messaging Tutorial
+  // Flutter Firebase Analytics Tutorial
+  // Flutter Firebase Remote Config Tutorial
+  // Flutter Firebase Performance Monitoring Tutorial
+  // Flutter Firebase Crashlytics Tutorial
+  // Flutter Firebase Dynamic Links Tutorial
+  // Flutter Firebase Performance Monitoring Tutorial
+  // Flutter Firebase Crashlytics Tutorial
+  // Flutter Firebase Dynamic Links Tutorial
+  // Flutter Firebase In-App Messaging Tutorial
+  // Flutter Firebase A/B Testing Tutorial
+  // Flutter Firebase Predictions Tutorial

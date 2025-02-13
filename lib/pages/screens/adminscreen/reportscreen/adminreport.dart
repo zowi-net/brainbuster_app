@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
@@ -100,7 +101,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
         title: const Text('Admin Report'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 20,right: 20,top: 16.0,bottom: 16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -127,6 +128,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
                     selectedCategory = docs.first.id;
                   }
                   return DropdownButton<String>(
+                    elevation: 25,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
                     value: selectedCategory,
                     items: items,
                     onChanged: (newVal) {
@@ -139,43 +145,202 @@ class _ReportsScreenState extends State<ReportsScreen> {
               ),
               const SizedBox(height: 16),
               // Optional field to add a new category.
-              TextField(
-                controller: newCategoryController,
-                decoration: const InputDecoration(
-                  labelText: 'Or Add New Category',
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: newCategoryController,
+                  decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                focusColor: Colors.white,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: '  Add New Category',
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 20,
+                ),
+                            ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16, 
+                  color: Colors.black38,
+                  wordSpacing: 1.5,
+                ),
                 ),
               ),
-              const SizedBox(height: 16),
               // Fields for the question and its options.
-              TextField(
-                controller: questionController,
-                decoration: const InputDecoration(labelText: 'Question'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: questionController,
+                  decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                focusColor: Colors.white,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: '  Question',
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 20,
+                ),
+                            ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16, 
+                  color: Colors.black38,
+                  wordSpacing: 1.5,
+                ),
+                ),
               ),
-              TextField(
-                controller: option1Controller,
-                decoration: const InputDecoration(labelText: 'Option 1'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: option1Controller,
+                  decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                focusColor: Colors.white,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: '  Option 1',
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 20,
+                ),
+                            ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16, 
+                  color: Colors.black38,
+                  wordSpacing: 1.5,
+                ),
+                ),
               ),
-              TextField(
-                controller: option2Controller,
-                decoration: const InputDecoration(labelText: 'Option 2'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: option2Controller,
+                  decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                focusColor: Colors.white,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: '  Option 2',
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 20,
+                ),
+                            ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16, 
+                  color: Colors.black38,
+                  wordSpacing: 1.5,
+                ),
+                ),
               ),
-              TextField(
-                controller: option3Controller,
-                decoration: const InputDecoration(labelText: 'Option 3'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: option3Controller,
+                  decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                focusColor: Colors.white,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: '  Option 3',
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 20,
+                ),
+                            ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16, 
+                  color: Colors.black38,
+                  wordSpacing: 1.5,
+                ),
+                ),
               ),
-              TextField(
-                controller: option4Controller,
-                decoration: const InputDecoration(labelText: 'Option 4'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: option4Controller,
+                  decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                focusColor: Colors.white,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: '  Option 4',
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 20,
+                ),
+                 ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16, 
+                  color: Colors.black38,
+                  wordSpacing: 1.5,
+                ),
+                ),
               ),
-              TextField(
-                controller: answerController,
-                decoration: const InputDecoration(labelText: 'Answer'),
+              Padding(
+                padding: const EdgeInsets.all(9),
+                child: TextField(
+                  controller: answerController,
+                  decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[200],
+                focusColor: Colors.white,
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                hintText: '  Answer',
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                  fontSize: 20,
+                ),
+                            ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16, 
+                  color: Colors.black38,
+                  wordSpacing: 1.5,
+                ),
+                ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: const Text('Submit'),
+            Padding(
+              padding: const EdgeInsets.only(left: 40,right: 40),
+              child: ElevatedButton(
+              onPressed: _submitForm,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple[400],
+                minimumSize: const Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
+              child: const Text('Add Questions',
+              style:TextStyle(
+                color: Colors.white70,
+                fontSize:15,
+                ),
+              ),
+            ),
+            ),
             ],
           ),
         ),
