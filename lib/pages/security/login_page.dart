@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatelessWidget {
@@ -18,7 +17,7 @@ class LoginPage extends StatelessWidget {
     ScaffoldMessenger.of(wrgcontext).showSnackBar(
       const SnackBar(
         content: Text('Wrong email or password'),
-        backgroundColor: Colors.red, // Indicate an error
+        backgroundColor:Color.fromRGBO(241, 58, 90, 1), // Indicate an error
         duration: Duration(seconds: 3), // Visible for 3 seconds
       ),
     );
@@ -76,7 +75,7 @@ class LoginPage extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('An error occurred: ${e.message}'),
-            backgroundColor: Colors.red,
+            backgroundColor:  const Color.fromRGBO(241, 58, 90, 1),
             duration: const Duration(seconds: 3),
           ),
         );
@@ -87,52 +86,59 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      bottomNavigationBar:Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-//sign up
-        Text(
-          'Don\'t have an account yet?',
-          style: GoogleFonts.averiaGruesaLibre(
-            fontSize: 20,
-            color: Colors.grey[600],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/signup');
-          },
-          child: Text(
-            'Register Now',
+      backgroundColor:  const Color.fromRGBO(221, 220, 220, 6),
+      bottomNavigationBar:Padding(
+        padding:  const EdgeInsets.symmetric(vertical: 16.0),
+        child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+        //Register button
+          Text(
+            'Don\'t have an account yet?',
             style: TextStyle(
+              fontFamily: 'Nunito',
               fontSize: 20,
-              color: Colors.deepOrange[800],
+              color: Colors.grey[600],
             ),
           ),
-        ),
-      ],
-    ), 
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/signup');
+            },
+            child: const Text(
+              'Register Now',
+              style: TextStyle(
+                fontFamily: 'Nunito',
+                fontSize: 19,
+                color:  Color.fromRGBO(241, 58, 90, 1),
+              ),
+            ),
+          ),
+        ],
+            ),
+      ), 
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0,bottom: 16.0,top: 16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
                 Lottie.asset('assets/hm.json', width: 300, height: 200),
-                Text(
+                const Text(
                   'Welcome to Brainbuster',
-                  style: GoogleFonts.pacifico(
+                  style: TextStyle(
+                    fontFamily: 'Pacifico',
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    color: Colors.brown,
+                    color:  Color.fromRGBO(117, 74, 73, 5),
                   ),
                 ),
                 Text(
                   'App to test your knowledge',
                   style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontSize: 20,
                     color: Colors.grey[600],
                   ),
@@ -151,6 +157,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     hintText: '  Email',
                     hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.grey[500],
                       fontSize: 20,
                     ),
@@ -171,6 +178,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     hintText: '  Password',
                     hintStyle: TextStyle(
+                      fontFamily: 'poppins',
                       color: Colors.grey[500],
                       fontSize: 20,
                     ),
@@ -182,9 +190,10 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
                     width: double.infinity,
+                    height: 90,
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.brown[700],
+                      color: const Color.fromRGBO(117, 74, 73, 5),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
@@ -197,7 +206,8 @@ class LoginPage extends StatelessWidget {
                           child: const Text(
                             'Sign In',
                             style: TextStyle(
-                              color: Colors.white,
+                              fontFamily: 'Poppins',
+                              color: Color.fromRGBO(255, 255, 255, 1),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -214,9 +224,11 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushNamed(context, '/passwordreset');
                     },
-                    child: Text(
+                    child: const Text(
                       'Forgot Password?',
-                      style: TextStyle(color: Colors.red[600], fontSize: 19),
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color.fromRGBO(241, 58, 90, 1), fontSize: 18),
                     ),
                   ),
                 ),

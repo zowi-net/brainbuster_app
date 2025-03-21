@@ -44,28 +44,28 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                   style: GoogleFonts.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.bold, 
-                    color: Colors.brown[800],
+                    color: const Color.fromRGBO(32, 32, 32, 1),//black color
                     wordSpacing: 1.5,
                   ),
           ),
-          backgroundColor: Colors.brown[300],
+          backgroundColor:const Color.fromRGBO(221, 220, 220, 6),
         ),
         body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.brown[300]!, Colors.brown[600]!],
+            colors: [Color.fromRGBO(221, 220, 220, 6), Color.fromRGBO(221, 220, 220, 6),],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
         ),
-        padding: const EdgeInsets.only(left: 16,right: 16),
+        padding: const EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 16),
         child: Center(
           child: SizedBox(
             height: 350,
             width: 350,
             child: Card(
               semanticContainer: true,
-              color: Colors.white70,
+              color: const Color.fromRGBO(221, 220, 220, 9),
               elevation: 25,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               child: Padding(
@@ -80,7 +80,8 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                         child: Text(
                           textAlign: TextAlign.center,
                           'Enter your email address to reset your password',
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
                             fontSize: 16, 
                             color: Colors.brown[800],
                             wordSpacing: 1.5,
@@ -104,7 +105,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                           hintText: 'Enter your email',
                           hintStyle: TextStyle(color: Colors.brown[400]),
                           focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.brown, width: 2),
+                            borderSide: BorderSide(color: Color.fromRGBO(117, 74, 73, 5), width: 2),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10),
                               topRight: Radius.circular(10),
@@ -120,20 +121,24 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: _resetPassword,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.brown[500],
-                          minimumSize: const Size(double.infinity, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                      const SizedBox(height: 50),
+                      SizedBox(
+                        width: 200,
+                        child: ElevatedButton(
+                          onPressed: _resetPassword,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:  const Color.fromRGBO(117, 74, 73, 5),
+                            minimumSize: const Size(double.infinity, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        child: const Text('Reset Password',
-                        style:TextStyle(
-                          color: Colors.white70,
-                          fontSize:15,
+                          child: const Text('Reset Password',
+                          style:TextStyle(
+                            fontFamily: 'Nunito',
+                            color:  Color.fromRGBO(255, 255, 255, 5),
+                            fontSize:15,
+                            ),
                           ),
                         ),
                       ),

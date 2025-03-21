@@ -2,7 +2,6 @@ import 'package:brainbuster/pages/security/emailverify.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -30,7 +29,7 @@ void showWrongCredentialsSnackBar(BuildContext wrgcontext) {
   ScaffoldMessenger.of(wrgcontext).showSnackBar(
     const SnackBar(
       content: Text('Wrong email or password'),
-      backgroundColor: Colors.red, // Indicate an error
+      backgroundColor: Color.fromRGBO(241, 58, 90, 6), // Indicate an error
       duration: Duration(seconds: 3), // Visible for 3 seconds
     ),
   );
@@ -88,7 +87,7 @@ void signUserUp(
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Passwords do not match'),
-          backgroundColor: Colors.red,
+          backgroundColor: Color.fromRGBO(241, 58, 90, 6),
           duration: Duration(seconds: 3),
         ),
       );
@@ -98,7 +97,7 @@ void signUserUp(
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Error creating account: $e'),
-        backgroundColor: Colors.red,
+        backgroundColor: const Color.fromRGBO(241, 58, 90, 6),
         duration: const Duration(seconds: 3),
       ),
     );
@@ -110,34 +109,33 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context, '/loginpage');
-            },
-            child: const Icon(
-              Icons.arrow_back,
-              size: 30,
-            ),
-          ),
-        ),
-      ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: const Color.fromRGBO(221, 220, 220, 6),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(left: 16,right: 16),
+            padding: const EdgeInsets.only(left: 16,right: 16,top: 5,bottom: 16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+               Row(
+                 children: [
+                   GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context, '/loginpage');
+                      },
+                      child: const Icon(
+                        Icons.arrow_back,
+                        size: 30,
+                      ),
+                    ),
+                 ],
+               ),
                 const SizedBox(height: 1),
                 Lottie.asset('assets/hm.json', width: 300, height: 200),
-                Text(
+                const Text(
                   'Create An Account With Brainbuster',
-                  style: GoogleFonts.irishGrover(
+                  style: TextStyle(
+                    fontFamily: 'Pacifico',
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.brown,
@@ -146,7 +144,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 Text(
                   'Welcome to BrainBuster Create an account With Us',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
+                    fontFamily: 'Nunito',
                     fontSize: 15, 
                     color: Colors.grey[600],
                     wordSpacing: 1.5,
@@ -166,6 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     hintText: '  First Name',
                     hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.grey[500],
                       fontSize: 20,
                     ),
@@ -185,6 +185,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     hintText: ' Last Name',
                     hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.grey[500],
                       fontSize: 20,
                     ),
@@ -204,6 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     hintText: ' Email',
                     hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.grey[500],
                       fontSize: 20,
                     ),
@@ -224,6 +226,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     hintText: '  Password',
                     hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.grey[500],
                       fontSize: 20,
                     ),
@@ -244,6 +247,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     hintText: '  Confirm Password',
                     hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
                       color: Colors.grey[500],
                       fontSize: 20,
                     ),
@@ -251,16 +255,16 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
 // Dropdown to select user or admin
-                DropdownButton<String>(
-                  value: role,
-                  items: ['user', 'admin']
-                      .map((role) => DropdownMenuItem(
-                            value: role,
-                            child: Text(role),
-                          ))
-                      .toList(),
-                  onChanged: (value) => setState(() => role = value!),
-                ),
+                // DropdownButton<String>(
+                //   value: role,
+                //   items: ['user', 'admin']
+                //       .map((role) => DropdownMenuItem(
+                //             value: role,
+                //             child: Text(role),
+                //           ))
+                //       .toList(),
+                //   onChanged: (value) => setState(() => role = value!),
+                // ),
                 const SizedBox(height: 20),
   // SignUp button
                 Padding(
@@ -269,7 +273,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.brown[700],
+                      color: const Color.fromRGBO(117, 74, 73, 1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
@@ -278,11 +282,13 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: GestureDetector(
                           onTap: () async {
                             signUserUp(context, emailController, passwordController);
+                            role;
                           },
                           child: const Text(
                             'Sign Up',
                             style: TextStyle(
-                              color: Colors.white,
+                              fontFamily: 'Nunito',
+                              color: Color.fromRGBO(221, 220, 220, 2),
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),

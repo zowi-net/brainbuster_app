@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class EmailVerificationPage extends StatefulWidget {
+  const EmailVerificationPage({super.key});
+
   @override
   _EmailVerificationPageState createState() => _EmailVerificationPageState();
 }
@@ -90,7 +92,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Email Verification')),
+      backgroundColor: const Color.fromRGBO(221, 220, 220, 6),
+      appBar: AppBar(title: const Text('Email Verification'), backgroundColor: const Color.fromRGBO(117, 74, 73, 5)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -99,21 +102,33 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
             const Icon(
               Icons.email,
               size: 100,
-              color: Colors.blue,
+              color: Color.fromRGBO(117, 74, 73, 5),
             ),
             const SizedBox(height: 20),
             const Text(
               'Please check your email and verify your account.',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 18),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
             isResending
                 ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: resendVerificationEmail,
-                    child: const Text('Resend Verification Email'),
-                  ),
+                : SizedBox(
+                  width: 250,
+                  height: 70,
+                  child: ElevatedButton(
+                      onPressed: resendVerificationEmail,
+                      style:  ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(117, 74, 73, 5), // Custom RGB (Orange)
+                      ),
+                      child: const Text('Resend Verification Email',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.white)),
+                    ),
+                ),
             const SizedBox(height: 20),
             // Check if email is verified before allowing navigation
             isEmailVerified
@@ -128,3 +143,4 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     );
   }
 }
+

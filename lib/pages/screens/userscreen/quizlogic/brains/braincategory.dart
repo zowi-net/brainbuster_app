@@ -20,6 +20,7 @@ class _BraincategoryState extends State<Braincategory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(221, 220, 220, 2),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16),
@@ -39,7 +40,8 @@ class _BraincategoryState extends State<Braincategory> {
                       child: Center(
                         child: Text(
                           "Category",
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
                             fontSize: 20,
                             color: Colors.brown[800],
                             wordSpacing: 1.5,
@@ -83,12 +85,13 @@ class _BraincategoryState extends State<Braincategory> {
                               );
                             },
                             child: Card(
-                              color: Colors.deepOrange[400],
+                              color: const Color.fromRGBO(238, 146, 30, 4),
                               child: Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.only(left: 16,right: 16,top: 16,bottom: 16),
                                   child: Text(docIds[index],
-                                    style: GoogleFonts.poppins(
+                                    style: const TextStyle(
+                                      fontFamily: 'Poppins',
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -150,14 +153,16 @@ class QuestionsScreenState extends State<QuestionsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Time Up!',
-        style: GoogleFonts.poppins(
+        title: const Text('Time Up!',
+        style: TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
       ),
         content: Text('You have failed the test.',
-        style: GoogleFonts.poppins(
+        style: TextStyle(
+          fontFamily: 'Poppins',
           fontSize: 16, 
           color: Colors.brown[800],
           wordSpacing: 1.5,
@@ -169,7 +174,8 @@ class QuestionsScreenState extends State<QuestionsScreen> {
               Navigator.of(context).pushReplacementNamed('/result', arguments: {'score': 0});
             },
             child: Text('OK',
-            style: GoogleFonts.poppins(
+            style: TextStyle(
+              fontFamily: 'Poppins',
             fontSize: 16, 
             color: Colors.brown[800],
             wordSpacing: 1.5,
@@ -245,11 +251,13 @@ class QuestionsScreenState extends State<QuestionsScreen> {
                 ValueListenableBuilder<int>(
                   valueListenable: _remainingTime,
                   builder: (context, value, child) {
-                    return Text('Time remaining: ${value ~/ 60}:${value % 60}',
-                    style: GoogleFonts.poppins(
-                      color: Colors.red[800],
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                    return Center(
+                      child: Text('Time remaining: ${value ~/ 60}:${value % 60}',
+                      style: GoogleFonts.poppins(
+                        color: Colors.red[800],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     );
                   },
@@ -257,7 +265,8 @@ class QuestionsScreenState extends State<QuestionsScreen> {
                 const SizedBox(height: 10,),
                 Text(
                   'Question: $questionText',
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontSize: 18, 
                     color: Colors.brown[800],
                     wordSpacing: 1.5,
@@ -267,7 +276,10 @@ class QuestionsScreenState extends State<QuestionsScreen> {
                 const SizedBox(height: 20),
                 ...options.map<Widget>((option) {
                   return RadioListTile<String>(
-                    title: Text(option ?? 'No option available'),
+                    title: Text(option ?? 'No option available',
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                    )),
                     value: option ?? 'No option available',
                     groupValue: _selectedOption,
                     onChanged: (value) {
@@ -299,7 +311,8 @@ class QuestionsScreenState extends State<QuestionsScreen> {
                           ),
                         ),
                         child: Text("Previous",
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
                             fontSize: 16, 
                             color: Colors.brown[800],
                             wordSpacing: 1.5,
@@ -334,7 +347,8 @@ class QuestionsScreenState extends State<QuestionsScreen> {
                           ),
                         ),
                         child: Text("Next",
-                         style: GoogleFonts.poppins(
+                         style: TextStyle(
+                          fontFamily: 'Poppins',
                             fontSize: 16, 
                             color: Colors.brown[800],
                             wordSpacing: 1.5,
