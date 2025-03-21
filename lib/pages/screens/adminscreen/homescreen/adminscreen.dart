@@ -40,7 +40,7 @@ class AdminnistratorDashboard extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onPrimaryFixedVariant,
       appBar: AppBar(
-        title: const Text('Admin Dashboard'),
+        title: const Text('Admin Dashboard',style: TextStyle(color: Colors.white,fontSize: 15),),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         automaticallyImplyLeading: false,
         actions: [
@@ -73,6 +73,7 @@ class AdminnistratorDashboard extends StatelessWidget {
             const SizedBox(height: 50),
             Expanded(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: SizedBox(
@@ -123,6 +124,7 @@ class AdminnistratorDashboard extends StatelessWidget {
             const SizedBox(height: 5),
             Expanded(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: SizedBox(
@@ -199,6 +201,7 @@ class DashboardTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           gradient: gradient,
           borderRadius: BorderRadius.circular(20),
@@ -212,12 +215,16 @@ class DashboardTile extends StatelessWidget {
           ],
         ),
         child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 16),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),

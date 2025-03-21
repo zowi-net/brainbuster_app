@@ -96,12 +96,12 @@ flutter:
   #         style: italic
     - family: Poppins
       fonts:
-        - asset: assets/fonts/Poppins/Poppins.ttf
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+          weight: 700
     - family: Nunito
       fonts:
-        - asset: assets/fonts/Nunito/Nunito.ttf   
+        - asset: assets/fonts/Nunito/Nunito-VariableFont_wght.ttf   
     
   #
   # For details regarding fonts from package dependencies,

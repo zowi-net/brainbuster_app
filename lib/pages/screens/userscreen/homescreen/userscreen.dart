@@ -21,7 +21,7 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
     return Scaffold(
     backgroundColor: const Color.fromRGBO(221, 220, 220, 1),
     bottomNavigationBar: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 16, right: 16,),
       child: Container(
         margin: const EdgeInsets.only(bottom: 7), // Adds space below the bar
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12), // Adds padding inside
@@ -36,49 +36,52 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
         ),
       ],
         ),
-        child: SalomonBottomBar(
-      backgroundColor: Colors.transparent, // Matches container background
-      selectedItemColor: Colors.brown[500],
-      unselectedItemColor: Colors.grey[900],
-      currentIndex: _currentIndex,
-      onTap: (i) => setState(() => _currentIndex = i),
-      items: [
-        SalomonBottomBarItem(
-          icon: const FaIcon(FontAwesomeIcons.house, size: 30),
-          title: const Text("Home"),
-          selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
-        ),
-        SalomonBottomBarItem(
-          icon: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/braincategory');
-            },
-            child: const FaIcon(FontAwesomeIcons.graduationCap, size: 30),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SalomonBottomBar(
+                backgroundColor: Colors.transparent, // Matches container background
+                selectedItemColor: Colors.brown[500],
+                unselectedItemColor: Colors.grey[900],
+                currentIndex: _currentIndex,
+                onTap: (i) => setState(() => _currentIndex = i),
+                items: [
+          SalomonBottomBarItem(
+            icon: const FaIcon(FontAwesomeIcons.house, size: 25),
+            title: const Text("Home",style: TextStyle(fontSize: 12),),
+            selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
           ),
-          title: const Text("School"),
-          selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
-        ),
-        SalomonBottomBarItem(
-          icon: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/result');
-            },
-            child: const FaIcon(FontAwesomeIcons.chartSimple, size: 30),
+          SalomonBottomBarItem(
+            icon: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/braincategory');
+              },
+              child: const FaIcon(FontAwesomeIcons.graduationCap, size: 25),
+            ),
+            title: const Text("School",style: TextStyle(fontSize: 12),),
+            selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
           ),
-          title: const Text("Results"),
-          selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
-        ),
-        SalomonBottomBarItem(
-          icon: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/setting');
-            },
-            child: const FaIcon(FontAwesomeIcons.gear, size: 30),
+          SalomonBottomBarItem(
+            icon: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/result');
+              },
+              child: const FaIcon(FontAwesomeIcons.chartSimple, size: 25),
+            ),
+            title: const Text("Results",style: TextStyle(fontSize: 12),),
+            selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
           ),
-          title: const Text("Settings"),
-          selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
-        ),
-      ],
+          SalomonBottomBarItem(
+            icon: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/setting');
+              },
+              child: const FaIcon(FontAwesomeIcons.gear, size: 25),
+            ),
+            title: const Text("Settings",style: TextStyle(fontSize: 12),),
+            selectedColor: const Color.fromRGBO(32, 34, 36, 0.8),
+          ),
+                ],
+          ),
         ),
       ),
     ),
@@ -149,7 +152,7 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
           style: GoogleFonts.rubik(
             textStyle: const TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 24,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Color.fromRGBO(255, 255, 255, 2), 
             ), 
@@ -167,7 +170,7 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
               Text("HI, ${widget.user?.email ?? 'User'}", style: GoogleFonts.comicNeue(
                 textStyle: const TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 25,fontWeight: FontWeight.bold),
+                  fontSize: 15,fontWeight: FontWeight.bold),
                 ),
               ),
             ],
@@ -175,12 +178,13 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
             const Row(
             children: [
               Text("you have Exams pending",style: TextStyle(
+                fontSize: 10,
                 fontFamily: 'Nunito',
               ),),
             ],
           ),
           SizedBox(
-            height: 250,
+            height: 150,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
@@ -199,7 +203,7 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
                   child: SizedBox(
                     height: 100,
                     width: 360,
-                    child: Image.asset('assets/secound.jpg'),
+                    child: Image.asset('assets/secound.jpg',fit: BoxFit.fill,),
                   ),
                 ),
               ],
@@ -209,153 +213,156 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
             children: [
               Text("Categories",style: TextStyle(
                  fontFamily: 'Pacifico',
-                fontSize: 25,fontWeight: FontWeight.bold),
+                fontSize: 20,fontWeight: FontWeight.bold),
               ),
             ],
           ),const SizedBox(height: 10,),
 //card for categories
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const SizedBox(
-              width: 120,
-              height: 140,
-              child: Card(
-                color: Color.fromRGBO(238, 146, 30, 1),
-                shadowColor: Color.fromRGBO(238, 146, 30, 1),
-                surfaceTintColor: Color.fromRGBO(238, 146, 30, 1),
-                elevation: 20,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      //text for ecah card in categories 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: FaIcon(
-                                FontAwesomeIcons.mountain,color: Colors.black,),
-                            ),
-                            ),
-                        ],
-                      ),SizedBox(height: 30,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Geography",style: TextStyle(
-                             fontFamily: 'Poppins',
-                            fontSize: 15,),),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 120,
-              height: 140,
-              child: Card(
-                color: const Color.fromRGBO(244, 66, 53, 1),
-                shadowColor: const Color.fromRGBO(244, 66, 53, 1),
-                surfaceTintColor: const Color.fromRGBO(244, 66, 53, 1),
-                // elevation: 20,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      //text for ecah card in categories 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: FaIcon(
-                                FontAwesomeIcons.virus,color: Colors.deepPurple[500],size: 35,),
-                            ),
-                            ),
-                        ],
-                      ),const SizedBox(height: 20,),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Biology",style: TextStyle(
-                             fontFamily: 'Poppins',
-                            fontSize: 15,),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
- //third category card start here
-            const SizedBox(
-              width: 120,
-              height: 140,
-              child: Card(
-                color: Color.fromRGBO(118, 164, 96, 1),
-                shadowColor: Color.fromRGBO(118, 164, 96, 1),
-                surfaceTintColor: Color.fromRGBO(118, 164, 96, 1),
-                // elevation: 20,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      //text for ecah card in categories 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 20),
-                              child: FaIcon(
-                                FontAwesomeIcons.code,color: Color.fromRGBO(243, 64, 33, 1),
-                                size: 35,),
-                            ),
-                            ),
-                        ],
-                      ),SizedBox(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Programming", style: TextStyle(
-                             fontFamily: 'Poppins',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            // color: Colors.deepOrange[500],
-                          ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const SizedBox(
+                width: 120,
+                height: 140,
+                child: Card(
+                  color: Color.fromRGBO(238, 146, 30, 1),
+                  shadowColor: Colors.transparent,
+                  surfaceTintColor: Color.fromRGBO(238, 146, 30, 1),
+                  elevation: 20,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        //text for ecah card in categories 
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: FaIcon(
+                                  FontAwesomeIcons.mountain,color: Colors.black,),
+                              ),
+                              ),
+                          ],
+                        ),SizedBox(height: 30,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Geography",style: TextStyle(
+                               fontFamily: 'Poppins',
+                              fontSize: 15,),),
+                          ],
                         ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(
+                width: 120,
+                height: 140,
+                child: Card(
+                  color: const Color.fromRGBO(244, 66, 53, 1),
+                  shadowColor: const Color.fromRGBO(244, 66, 53, 1),
+                  surfaceTintColor: const Color.fromRGBO(244, 66, 53, 1),
+                  // elevation: 20,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        //text for ecah card in categories 
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: FaIcon(
+                                  FontAwesomeIcons.virus,color: Colors.deepPurple[500],size: 35,),
+                              ),
+                              ),
+                          ],
+                        ),const SizedBox(height: 20,),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Biology",style: TextStyle(
+                               fontFamily: 'Poppins',
+                              fontSize: 15,),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+           //third category card start here
+              const SizedBox(
+                width: 120,
+                height: 140,
+                child: Card(
+                  color: Color.fromRGBO(118, 164, 96, 1),
+                  shadowColor: Color.fromRGBO(118, 164, 96, 1),
+                  surfaceTintColor: Color.fromRGBO(118, 164, 96, 1),
+                  // elevation: 20,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        //text for ecah card in categories 
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: FaIcon(
+                                  FontAwesomeIcons.code,color: Color.fromRGBO(243, 64, 33, 1),
+                                  size: 35,),
+                              ),
+                              ),
+                          ],
+                        ),SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Programming", style: TextStyle(
+                               fontFamily: 'Poppins',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              // color: Colors.deepOrange[500],
+                            ),
+                          ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     ),
           const SizedBox(height: 20,),
             SizedBox(
-              width: 120,
-              height: 140,
+              width: 100,
+              height: 120,
               child: Card(
                 color: const Color.fromRGBO(118, 164, 96, 1),
-                shadowColor: Colors.deepOrange[700],
+                shadowColor: Colors.transparent,
                 surfaceTintColor: Colors.deepPurple[900],
                 elevation: 20,
                 child: const Padding(
-                  padding: EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 5),
+                  padding: EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 5),
                   child: Column(
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -367,17 +374,17 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
                             child: Padding(
                               padding: EdgeInsets.only(top: 20),
                               child: FaIcon(
-                                FontAwesomeIcons.calculator,color: Colors.black,size: 30,),
+                                FontAwesomeIcons.calculator,color: Colors.black,size: 19,),
                             ),
                             ),
                         ],
-                      ),SizedBox(height: 20,),
+                      ),SizedBox(height: 15,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("Mathematics",style: TextStyle(
                             fontFamily: 'Poppins',
-                            fontSize: 18,
+                            fontSize: 15,
                           ),
                           ), 
                           
@@ -387,7 +394,7 @@ class _UserScreenDashBoardState extends State<UserScreenDashBoard> {
                   ),
                 ),
               ),
-            ),
+            ),const SizedBox(height: 10,),
            ],
         ),
       ),

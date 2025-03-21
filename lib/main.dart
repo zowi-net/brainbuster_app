@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/loginpage': (context) =>  LoginPage(),
         '/signup': (context) => const SignUpPage(),
-        '/verification': (context) => EmailVerificationPage(),
+        '/verification': (context) => const EmailVerificationPage(),
         '/passwordreset': (context) => const PasswordResetScreen(),
         '/adminscreen': (context) => const AdminnistratorDashboard(),
         '/userscreen': (context) =>  UserScreenDashBoard(),

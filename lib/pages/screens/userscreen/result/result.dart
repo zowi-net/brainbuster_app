@@ -14,6 +14,7 @@ class ResultPage extends StatelessWidget {
         title: const Text('Quiz Result',style: TextStyle(
           fontFamily: 'Poppins',
           color: Colors.white,
+          fontSize: 15,
         ),),
       ),
       body: Center(
@@ -22,7 +23,7 @@ class ResultPage extends StatelessWidget {
           children: [
             const Text(
               'Your Score is:',
-              style: TextStyle(fontFamily: 'Poppins', fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontFamily: 'Poppins', fontSize: 15, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Text(
@@ -60,7 +61,7 @@ class ResultPage extends StatelessWidget {
                 ),
                 child: const Text('Return to Home',style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 16,
+                  fontSize: 15,
                   color: Colors.white, // Ensure text is readable
                   fontWeight: FontWeight.bold,
                 ),),

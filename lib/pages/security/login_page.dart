@@ -88,7 +88,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor:  const Color.fromRGBO(221, 220, 220, 6),
       bottomNavigationBar:Padding(
-        padding:  const EdgeInsets.symmetric(vertical: 16.0),
+        padding: const EdgeInsets.only(left: 16,right: 16),
         child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -97,7 +97,8 @@ class LoginPage extends StatelessWidget {
             'Don\'t have an account yet?',
             style: TextStyle(
               fontFamily: 'Nunito',
-              fontSize: 20,
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
               color: Colors.grey[600],
             ),
           ),
@@ -109,7 +110,8 @@ class LoginPage extends StatelessWidget {
               'Register Now',
               style: TextStyle(
                 fontFamily: 'Nunito',
-                fontSize: 19,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
                 color:  Color.fromRGBO(241, 58, 90, 1),
               ),
             ),
@@ -120,84 +122,108 @@ class LoginPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0,bottom: 16.0,top: 16.0),
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0,bottom: 16.0,),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-                Lottie.asset('assets/hm.json', width: 300, height: 200),
-                const Text(
-                  'Welcome to Brainbuster',
-                  style: TextStyle(
-                    fontFamily: 'Pacifico',
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color:  Color.fromRGBO(117, 74, 73, 5),
+                Lottie.asset('assets/hm.json', width: 250, height: 150),
+                const Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Welcome to Brainbuster',
+                    style: TextStyle(
+                      fontFamily: 'Pacifico',
+                      fontSize: 29,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(117, 74, 77, 1),
+                    ),
                   ),
                 ),
                 Text(
                   'App to test your knowledge',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 20,
+                    fontSize: 15,
                     color: Colors.grey[600],
                   ),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 40),
 // email field
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    focusColor: Colors.white,
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    hintText: '  Email',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.grey[500],
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-// password field
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    focusColor: Colors.white,
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                    hintText: '  Password',
-                    hintStyle: TextStyle(
-                      fontFamily: 'poppins',
-                      color: Colors.grey[500],
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 50),
-// signIn button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 90,
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(117, 74, 73, 5),
-                      borderRadius: BorderRadius.circular(12),
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      focusColor: Colors.white,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      hintText: '  Email',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.grey[500],
+                        fontSize: 15,
+                      ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                  ),
+                ),
+                const SizedBox(height: 10),
+// password field
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      focusColor: Colors.white,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                      ),
+                      hintText: '  Password',
+                      hintStyle: TextStyle(
+                        fontFamily: 'poppins',
+                        color: Colors.grey[500],
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+//forgot password
+                Padding(
+                  padding: const EdgeInsets.only(left: 150,),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/passwordreset');
+                    },
+                    child: const Text(
+                      'Forgot Password ?',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Color.fromRGBO(241, 58, 90, 1), fontSize: 15),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+// signIn button
+                SizedBox(
+                  width: 230,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 70,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(117, 74, 77, 1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: Center(
                         child: TextButton(
                           onPressed: () {
@@ -208,27 +234,12 @@ class LoginPage extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               color: Color.fromRGBO(255, 255, 255, 1),
-                              fontSize: 20,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-//forgot password
-                Padding(
-                  padding: const EdgeInsets.only(left: 150, top: 9),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/passwordreset');
-                    },
-                    child: const Text(
-                      'Forgot Password?',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color.fromRGBO(241, 58, 90, 1), fontSize: 18),
                     ),
                   ),
                 ),

@@ -33,7 +33,7 @@ class _ProfilePageState extends State<SettingPage> {
             'BrainBuster Quiz',
             style: GoogleFonts.rubik(
               textStyle: const TextStyle(
-                fontSize: 24,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(32, 34, 36, 0.8),
               ),
@@ -49,7 +49,7 @@ class _ProfilePageState extends State<SettingPage> {
                 Navigator.pushReplacementNamed(context, '/loginpage');
               },             
               child: const FaIcon(
-                FontAwesomeIcons.rightFromBracket, size: 24),
+                FontAwesomeIcons.rightFromBracket, size: 15),
             ),
           ),
         ],
@@ -100,12 +100,13 @@ class _ProfilePageState extends State<SettingPage> {
         leading: CircleAvatar(
           child: FaIcon(
             icon,
+            size: 15,
             color: const Color.fromRGBO(243, 25, 26, 1),
           ),
         ),
-        title: Text(title),
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
         subtitle: subtitle != null ? Text(subtitle) : null,
-        trailing: const FaIcon(FontAwesomeIcons.arrowRight),
+        trailing: const FaIcon(FontAwesomeIcons.arrowRight,size: 15,),
       ),
     );
   }
